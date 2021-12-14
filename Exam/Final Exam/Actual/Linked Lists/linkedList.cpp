@@ -50,19 +50,54 @@ void linkedList::printList() const
 
 void linkedList::deleteStudent (nodeType* student)
 {
-    nodeType *current = first;
-    if (current == nullptr) {
+    // nodeType *current = first;
+    // if (current == nullptr) {
+    //     return;
+    // }
+    // while (current != nullptr) {
+    //     if (current->info.id == student->info.id && current->info.name == student->info.name) {
+    //         // nodeType *temp = current;
+    //         current->prev->next = current->next;
+    //         current->next->prev = current->prev;
+    //         // delete temp;
+    //         count--;
+    //     }
+    //     current = current->next;
+    // }
+    nodeType *current;
+    nodeType *trailCurrent;
+    bool found;
+    if (first == nullptr)
         return;
-    }
-    while (current != nullptr) {
-        if (current->info.id == student->info.id && current->info.name == student->info.name) {
-            // nodeType *temp = current;
-            current->prev->next = current->next;
-            current->next->prev = current->prev;
-            // delete temp;
+    else {
+        if (first == student) {
+            current = first;
+            first = first->next;
             count--;
+            if (first == nullptr) 
+                last = nullptr;
+            delete current;
         }
-        current = current->next;
+        else {
+            found = false;
+            trailCurrent = first;
+            current = first->next;
+            while (current != nullptr && !found) {
+                if (current != student) {
+                    trailCurrent = current;
+                    current = current-> next;
+                }
+                else found = true;
+            }
+            if (found) {
+                trailCurrent->next = current->next;
+                count--;
+                if (last == current)
+                    last = trailCurrent;
+                delete current;
+            }
+            else return;
+        }
     }
 }
 
